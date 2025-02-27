@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+    /* --font-unbounded: "Unbounded", sans-serif;  */
+    --primary: #1e2939;
+    --secondary: #171f2f;
+}
+  
+
+body {
+    background-color: #171f2f;
+}
