@@ -23,7 +23,7 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'manager_id' => 'required|integer'
+            'managerId' => 'required|integer'
         ];
     }
 }

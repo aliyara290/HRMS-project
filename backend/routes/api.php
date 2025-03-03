@@ -23,7 +23,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::apiResource('employees', EmployeeController::class);
     Route::apiResource('users', UserController::class);
-    Route::apiResource('department', DepartmentController::class);
+    Route::apiResource('departments', DepartmentController::class);
 
 });
-

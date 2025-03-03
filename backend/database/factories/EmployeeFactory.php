@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,9 +21,11 @@ class EmployeeFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'department_id' => $this->faker->randomElement([1, 2, 3, 6, 7]),
-            'recruitment_date' => $this->faker->date(),
+            'department_id' => Department::factory(),
             'date_of_birth' => $this->faker->date(),
+            'contract_start_date' => $this->faker->date(),
+            'contract_end_date' => $this->faker->date(),
+            'job_id' => Job::factory(),
             'address' => $this->faker->address(),
             'contract_type' => $this->faker->randomElement(['CDI', 'CDD', 'Internship', 'Freelance']),
             'salary' => $this->faker->numberBetween(1000, 10000),

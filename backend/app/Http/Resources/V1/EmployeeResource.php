@@ -16,9 +16,14 @@ class EmployeeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'userId' => $this->user_id,
-            'departmentId' => $this->department_id,
-            'recruitment_date' => $this->recruitment_date,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'avatar' => $this->avatar,
+            'jobTitle' => $this->jobTitle,
+            'DepartmentName' => $this->DepartmentName,
+            'contractStartDate' => $this->contract_start_date,
+            'contractEndDate' => $this->contract_end_date,
             'dateOfBirth' => $this->date_of_birth,
             'address' => $this->address,
             'contractType' => $this->contract_type,

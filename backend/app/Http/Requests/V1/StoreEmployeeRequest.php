@@ -22,12 +22,17 @@ class StoreEmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date_of_birth' => 'date',
-            'address' => 'required',
-            'recruitment_date' => 'date',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required',
+            'dateOfBirth' => 'date',
+            'address' => 'string',
+            'contractStartDate' => 'required|date',
+            'contractEndDate' => 'required|date',
+            'jobId' => 'required|numeric',
             'salary' => 'required|numeric',
-            'department_id' => 'required|numeric|exists:departments,id',
-            'contract_type' => 'required',
+            'departmentId' => 'required|numeric|exists:departments,id',
+            'contractType' => 'required',
         ];
     }
 }

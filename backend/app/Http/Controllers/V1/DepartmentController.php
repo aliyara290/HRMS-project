@@ -16,7 +16,8 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        return new DepartmentCollection(Department::all());
+        $dep = Department::join('users', 'departments.manager_id', '=', 'users.id')->select('departments.id', 'departments.name', 'users.name AS managerName')->orderBy('id', 'DESC')->paginate(8);
+        return new DepartmentCollection($dep);
     }
 
 
@@ -27,7 +28,7 @@ class DepartmentController extends Controller
     {
         $department = Department::create([
             'name' => $request->name,
-            'manager_id' => $request->manager_id,
+            'manager_id' => $request->managerId,
         ]);
 
         return new DepartmentResource($department);
@@ -57,6 +58,12 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        $department->delete();
+        $isDeleted = $department->delete();
+
+        if($isDeleted) {
+            return response()->json(['message' => 'Employee deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to deleted employee'], 404);
+        }
     }
 }

@@ -16,10 +16,9 @@ return new class extends Migration
             $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
             $table->date('date_of_birth');
             $table->text('address')->nullable();
-            $table->date('recruitment_date');
             $table->enum('contract_type', ['CDI', 'CDD', 'Internship', 'Freelance']);
-            $table->date('contract_start_date')->nullable();
-            $table->date('contract_end_date')->nullable();
+            $table->date('contract_start_date');
+            $table->date('contract_end_date');
             $table->decimal('salary', 10, 2);
             $table->enum('status', ['active', 'inactive', 'terminated'])->default('active');
             $table->foreignId('job_id')->nullable()->constrained('jobs')->onDelete('set null');
