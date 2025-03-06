@@ -9,6 +9,8 @@ import EmployeeFormUpdate from "./components/employees/Update.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dashboard from "./pages/Dashboard.jsx";
+import CareerPage from "./pages/career/index.jsx";
+import LeaveRecoveryForm from "./pages/leave/index.jsx";
 
 function App() {
   return (
@@ -36,7 +38,8 @@ function App() {
               path="/employees/update/:id"
               element={<EmployeeFormUpdate />}
             />
-            <Route path="/departments/list" element={<DepartmentListPage />} />
+            <Route path="/career/:id" element={<CareerPage />} />
+            <Route path="/leave" element={<LeaveRecoveryForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

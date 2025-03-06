@@ -69,7 +69,7 @@ const DepartmentsList = () => {
       storeDepartment(data)
         .then((response) => {
           toast.success(`${data.name} created successfully`);
-          
+
           getDepartments()
             .then((response) => {
               setDepartments(response.data.data);
@@ -89,8 +89,7 @@ const DepartmentsList = () => {
           });
           setIsClose(true);
         });
-        
-    } else if(isPost == false) {
+    } else if (isPost == false) {
       updateDepartment(depId, data)
         .then((response) => {
           toast.success(`${data.name} updated successfully`);
@@ -114,7 +113,6 @@ const DepartmentsList = () => {
           setIsClose(true);
           setIsPost(true);
         });
-        
     }
   };
 
@@ -207,13 +205,13 @@ const DepartmentsList = () => {
               />
             </svg>
           </div>
-          <div class="min-w-lg">
+          <div className="min-w-lg">
             <form action="#" onSubmit={handleSubmit}>
-              <div class="grid gap-2 sm:grid-cols-1 sm:gap-4">
-                <div class="">
+              <div className="grid gap-2 sm:grid-cols-1 sm:gap-4">
+                <div className="">
                   <label
-                    for="name"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Department Name
                   </label>
@@ -223,15 +221,15 @@ const DepartmentsList = () => {
                     id="name"
                     value={data.name}
                     onChange={handleChange}
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type product name"
                     required=""
                   />
                 </div>
                 <div>
                   <label
-                    for="category"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    htmlFor="category"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Manager
                   </label>
@@ -240,7 +238,7 @@ const DepartmentsList = () => {
                     name="managerId"
                     value={data.managerId}
                     onChange={handleChange}
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   >
                     <option selected disabled>
                       Select Manager
@@ -256,7 +254,7 @@ const DepartmentsList = () => {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700 cursor-pointer"
+                  className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-700 cursor-pointer"
                 >
                   Add department
                 </button>
@@ -278,7 +276,7 @@ const DepartmentsList = () => {
               <th scope="col" className="px-6 py-3">
                 Department manager
               </th>
-              
+
               <th scope="col" className="px-6 py-3">
                 Action
               </th>
@@ -286,8 +284,11 @@ const DepartmentsList = () => {
           </thead>
           <tbody>
             {departments.length > 0
-              ? departments.map((dep) => (
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+              ? departments.map((dep, index) => (
+                  <tr
+                    key={index}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
+                  >
                     <td className="px-6 py-4">{dep.id}</td>
                     <th
                       scope="row"

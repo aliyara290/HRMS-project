@@ -9,6 +9,7 @@ const EmployeeForm = () => {
   const [jobs, setJobs] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [loading, setIsLoading] = useState(true);
+  const [errors, setErrors] = useState([]);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -90,6 +91,9 @@ const EmployeeForm = () => {
       })
       .catch((error) => {
         console.error(error);
+        if (error.response.status === 422) {
+          setErrors(error.response.data.errors);
+        }
         toast.error("Failed to create employee. Please try again.");
       })
       .finally(() => {
@@ -144,10 +148,13 @@ const EmployeeForm = () => {
                   id="name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="First Name"
-                  required=""
+                  
                   value={data.name}
                   onChange={handleChange}
                 />
+                {/* {errors.email && (
+                  <span className="text-sm text-red-500">{errors.email}</span>
+                )} */}
               </div>
 
               <div className="w-full">
@@ -162,11 +169,14 @@ const EmployeeForm = () => {
                   name="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Email"
-                  required=""
+                  placeholder="Email *"
+                  
                   value={data.email}
                   onChange={handleChange}
                 />
+                {errors.email && (
+                  <span className="text-sm text-red-500">{errors.email}</span>
+                )}
               </div>
               <div className="w-full">
                 <label
@@ -181,10 +191,13 @@ const EmployeeForm = () => {
                   id="phone"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Phone"
-                  required=""
+                  
                   value={data.phone}
                   onChange={handleChange}
                 />
+                {/* {errors.phone && (
+                  <span className="text-sm text-red-500">{errors.phone}</span>
+                )} */}
               </div>
               <div className="w-full">
                 <label
@@ -199,10 +212,13 @@ const EmployeeForm = () => {
                   id="birth"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Date of birth"
-                  required=""
+                  
                   value={data.dateOfBirth}
                   onChange={handleChange}
                 />
+                {errors.dateOfBirth && (
+                  <span className="text-sm text-red-500">{errors.dateOfBirth}</span>
+                )}
               </div>
               <div className="w-full">
                 <label
@@ -217,10 +233,13 @@ const EmployeeForm = () => {
                   id="address"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Date of birth"
-                  required=""
+                  
                   value={data.address}
                   onChange={handleChange}
                 />
+                {errors.address && (
+                  <span className="text-sm text-red-500">{errors.address}</span>
+                )}
               </div>
             </div>
             <div className="w-full">
@@ -253,6 +272,9 @@ const EmployeeForm = () => {
                     </option>
                   ))}
                 </select>
+                {errors.jobId && (
+                  <span className="text-sm text-red-500">{errors.jobId}</span>
+                )}
               </div>
               <div>
                 <label
@@ -277,6 +299,9 @@ const EmployeeForm = () => {
                     </option>
                   ))}
                 </select>
+                {errors.departmentId && (
+                  <span className="text-sm text-red-500">{errors.departmentId}</span>
+                )}
               </div>
               <div>
                 <label
@@ -300,6 +325,9 @@ const EmployeeForm = () => {
                   <option value="Internship">Internship</option>
                   <option value="Freelance">Freelance</option>
                 </select>
+                {errors.contractType && (
+                  <span className="text-sm text-red-500">{errors.contractType}</span>
+                )}
               </div>
               <div className="w-full">
                 <label
@@ -313,14 +341,17 @@ const EmployeeForm = () => {
                   name="contractStartDate"
                   id="contract_start_date"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  required
+                  
                   value={data.contractStartDate}
                   onChange={handleChange}
                 />
+                {errors.contractStartDate && (
+                  <span className="text-sm text-red-500">{errors.contractStartDate}</span>
+                )}
               </div>
               <div className="w-full">
                 <label
-                  htmlFor="contract_end_date"
+                  htmlFor="contractEndDate"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Contract end date
@@ -330,10 +361,13 @@ const EmployeeForm = () => {
                   name="contractEndDate"
                   id="contract_end_date"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  required=""
+                  
                   value={data.contractEndDate}
                   onChange={handleChange}
                 />
+                {errors.contractEndDate && (
+                  <span className="text-sm text-red-500">{errors.contractEndDate}</span>
+                )}
               </div>
               <div className="w-full">
                 <label
@@ -348,10 +382,13 @@ const EmployeeForm = () => {
                   id="salary"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Salary"
-                  required=""
+                  
                   value={data.salary}
                   onChange={handleChange}
                 />
+                {errors.salary && (
+                  <span className="text-sm text-red-500">{errors.salary}</span>
+                )}
               </div>
             </div>
           </div>

@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tailwind": "npx @tailwindcss/cli -i ./src/style/style.css -o ./src/style/output.css --watch"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@tailwindcss/cli": "^4.0.9",
     "axios": "^1.8.1",
     "react": "^19.0.0",
