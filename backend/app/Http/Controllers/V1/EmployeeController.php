@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserMail;
 
 class EmployeeController extends Controller
 {
@@ -35,13 +37,12 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $defaultPassword = "Yara2001";
+        $user = DB::transaction(function () use ($request) {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'password' => Hash::make($defaultPassword),
+                'password' => Hash::make('Yara2001'),
             ]);
 
             Employee::create([
@@ -55,8 +56,14 @@ class EmployeeController extends Controller
                 'contract_type' => $request->contractType,
                 'salary' => $request->salary,
             ]);
+
+            return $user;
         });
+
+        Mail::to($user->email)->send(new UserMail($user->name));
+        return response()->json(['message' => 'Employee added successfully'], 200);
     }
+
 
     /**
      * Display the specified resource.
@@ -75,36 +82,36 @@ class EmployeeController extends Controller
     }
 
 
-   /**
- * Update the specified resource in storage.
- */
-public function update(UpdateEmployeeRequest $request, Employee $employee)
-{
-    DB::transaction(function () use ($request, $employee) {
-        $user = User::find($employee->user_id);
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    {
+        DB::transaction(function () use ($request, $employee) {
+            $user = User::find($employee->user_id);
 
-        if ($user) {
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
+            if ($user) {
+                $user->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                ]);
+            }
+
+            $employee->update([
+                'department_id' => $request->departmentId,
+                'contract_start_date' => $request->contractStartDate,
+                'contract_end_date' => $request->contractEndDate,
+                'job_id' => $request->jobId,
+                'date_of_birth' => $request->dateOfBirth,
+                'address' => $request->address,
+                'contract_type' => $request->contractType,
+                'salary' => $request->salary,
             ]);
-        }
+        });
 
-        $employee->update([
-            'department_id' => $request->departmentId,
-            'contract_start_date' => $request->contractStartDate, 
-            'contract_end_date' => $request->contractEndDate, 
-            'job_id' => $request->jobId,
-            'date_of_birth' => $request->dateOfBirth,
-            'address' => $request->address,
-            'contract_type' => $request->contractType,
-            'salary' => $request->salary,
-        ]);
-    });
-
-    return response()->json(['message' => 'Employee updated successfully'], 200);
-}
+        return response()->json(['message' => 'Employee updated successfully'], 200);
+    }
 
     /**
      * Remove the specified resource from storage.
