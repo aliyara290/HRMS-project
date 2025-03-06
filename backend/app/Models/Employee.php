@@ -24,4 +24,12 @@ class Employee extends Model
     public function department() {
         return $this->belongsTo(Department::class);
     }
+    public function job() {
+        return $this->belongsTo(Job::class);
+    }
+    public function career() {
+        return $this->hasMany(Career::class);
+    }
+
+
 }

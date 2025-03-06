@@ -19,7 +19,9 @@ return new class extends Migration
             $table->enum('contract_type', ['CDI', 'CDD', 'Internship', 'Freelance']);
             $table->date('contract_start_date');
             $table->date('contract_end_date');
-            $table->decimal('salary', 10, 2);
+            $table->integer('total_leave_days')->default(0);
+            $table->integer('total_days_due')->default(0);
+            $table->decimal('salary', 10, 2)->default(0);
             $table->enum('status', ['active', 'inactive', 'terminated'])->default('active');
             $table->foreignId('job_id')->nullable()->constrained('jobs')->onDelete('set null');
             $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null');
