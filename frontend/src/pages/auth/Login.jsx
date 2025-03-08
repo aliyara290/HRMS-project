@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { authApi } from "../../api/auth/auth";
-import { useNavigate } from "react-router-dom";
+import useAuthContext from "../../context/AuthContext";
 
 const Login = () => {
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState([]);
-  const navigate = useNavigate();
+  const { login, errors } = useAuthContext();
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -20,22 +18,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await authApi.post("/login", data);
-      console.log(response);
-      if (response.status == 200) {
-        console.log(response);
-        setData({
-          email: "",
-          password: "",
-        });
-        navigate("/dashboard");
-      }
-    } catch (e) {
-      if (e.response.status === 422) {
-        setErrors(e.response.data.errors);
-      }
-    }
+    login(data);
   };
 
   return (
@@ -87,7 +70,9 @@ const Login = () => {
                   onChange={handleChange}
                 />
                 {errors.password && (
-                  <span className="text-sm text-red-500">{errors.password}</span>
+                  <span className="text-sm text-red-500">
+                    {errors.password}
+                  </span>
                 )}
               </div>
               <div className="flex items-center justify-between">
