@@ -10,6 +10,7 @@ class LeaveAndRecovery extends Model
     use HasFactory;
     protected $fillable = [
         "full_name",
+        "user_id",
         "leave_type",
         "start_date",
         "end_date",

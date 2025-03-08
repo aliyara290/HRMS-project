@@ -8,6 +8,7 @@ use App\Http\Resources\V1\DepartmentCollection;
 use App\Http\Resources\V1\DepartmentResource;
 use App\Models\Department;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -19,8 +20,6 @@ class DepartmentController extends Controller
         $dep = Department::join('users', 'departments.manager_id', '=', 'users.id')->select('departments.id', 'departments.name', 'users.name AS managerName')->orderBy('id', 'DESC')->paginate(8);
         return new DepartmentCollection($dep);
     }
-
-
     /**
      * Store a newly created resource in storage.
      */

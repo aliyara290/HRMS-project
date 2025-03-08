@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('leave_and_recoveries', function (Blueprint $table) {
             $table->id();
-            $table->string("full_name");
-            $table->foreignId('employee_id')->constrained('employees');
+            $table->foreignId('user_id')->constrained('users');
             $table->enum("leave_type", ["annual", "sick", "personal", "recovery", "bereavement", "parental", "unpaid"])->default("annual");
             $table->enum("status", ["accepted", "pending", "rejected"])->default("pending");
             $table->date('start_date');
             $table->date('end_date');
             $table->date('return_date');
-            $table->integer("total_days");
+            $table->integer("total_days")->default(0);
             $table->text("reason");
-            $table->boolean('manager_aproval')->default(false);
-            $table->boolean('rh_aproval')->default(false);
+            $table->text('rejection_reason')->nullable();
+            $table->enum("manager_aproval", ["accepted", "pending", "rejected"])->default("pending");
+            $table->enum("rh_aproval", ["accepted", "pending", "rejected"])->default("pending");
             $table->timestamps();
         });
     }
