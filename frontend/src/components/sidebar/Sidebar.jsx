@@ -1,20 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { authApi } from "../../api/auth/auth";
+import useAuthContext from "../../context/AuthContext";
 
 const Sidebar = () => {
-  const navigate = useNavigate();
-  const handleClick = async (e) => {
+  const { logout } = useAuthContext();
+  const handleClick = (e) => {
     e.preventDefault();
-    try {
-      const response = await authApi.post("/logout");
-      if(response.status == 200) {
-        console.log(response);
-        navigate("/login");
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    logout();
   };
   return (
     <aside
@@ -128,7 +120,7 @@ const Sidebar = () => {
                 <span className="ms-3">Departments</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/careers"
                 className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -149,10 +141,62 @@ const Sidebar = () => {
                 </span>
                 <span className="ms-3">Careers</span>
               </Link>
+            </li> */}
+            <li>
+              <details className="group overflow-hidden cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+                <summary className="w-full flex items-center justify-between p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                  <div className="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="size-6  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2.25 4.125c0-1.036.84-1.875 1.875-1.875h5.25c1.036 0 1.875.84 1.875 1.875V17.25a4.5 4.5 0 1 1-9 0V4.125Zm4.5 14.25a1.125 1.125 0 1 0 0-2.25 1.125 1.125 0 0 0 0 2.25Z"
+                        clipRule="evenodd"
+                      />
+                      <path d="M10.719 21.75h9.156c1.036 0 1.875-.84 1.875-1.875v-5.25c0-1.036-.84-1.875-1.875-1.875h-.14l-8.742 8.743c-.09.089-.18.175-.274.257ZM12.738 17.625l6.474-6.474a1.875 1.875 0 0 0 0-2.651L15.5 4.787a1.875 1.875 0 0 0-2.651 0l-.1.099V17.25c0 .126-.003.251-.01.375Z" />
+                    </svg>
+
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                      Leave & Recovery
+                    </span>
+                  </div>
+
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="size-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </summary>
+                <ul className="flex flex-col gap-1 pl-9">
+                  <Link to="/leaves/list">
+                    <li className="mt-2 p-1 text-gray-200 hover:text-blue-500">
+                      Requests list
+                    </li>
+                  </Link>
+                  <Link to="/leaves/request">
+                    <li className="p-1 text-gray-200 hover:text-blue-500">
+                      Send Request
+                    </li>
+                  </Link>
+                </ul>
+              </details>
             </li>
             <li>
               <Link
-                to="/leave"
+                to="/leaves/requests"
                 className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <span className="text-gray-400 group-hover:text-white">
@@ -164,119 +208,14 @@ const Sidebar = () => {
                   >
                     <path
                       fillRule="evenodd"
-                      d="M1.5 7.125c0-1.036.84-1.875 1.875-1.875h6c1.036 0 1.875.84 1.875 1.875v3.75c0 1.036-.84 1.875-1.875 1.875h-6A1.875 1.875 0 0 1 1.5 10.875v-3.75Zm12 1.5c0-1.036.84-1.875 1.875-1.875h5.25c1.035 0 1.875.84 1.875 1.875v8.25c0 1.035-.84 1.875-1.875 1.875h-5.25a1.875 1.875 0 0 1-1.875-1.875v-8.25ZM3 16.125c0-1.036.84-1.875 1.875-1.875h5.25c1.036 0 1.875.84 1.875 1.875v2.25c0 1.035-.84 1.875-1.875 1.875h-5.25A1.875 1.875 0 0 1 3 18.375v-2.25Z"
+                      d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.25 6a.75.75 0 0 0-1.5 0v4.94l-1.72-1.72a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 1 0-1.06-1.06l-1.72 1.72V9.75Z"
                       clipRule="evenodd"
                     />
                   </svg>
                 </span>
-                <span className="ms-3">Leave & Recovery</span>
+                <span className="ms-3">Leaves Requests</span>
               </Link>
             </li>
-            {/* <li>
-              <details className="group overflow-hidden cursor-pointer [&_summary::-webkit-details-marker]:hidden">
-                <summary className="w-full flex items-center justify-between p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                  <div className="flex items-center">
-                    <span className="text-gray-400 group-hover:text-white">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M7.5 5.25a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0 1 12 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 0 1 7.5 5.455V5.25Zm7.5 0v.09a49.488 49.488 0 0 0-6 0v-.09a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                          clipRule="evenodd"
-                        />
-                        <path d="M3 18.4v-2.796a4.3 4.3 0 0 0 .713.31A26.226 26.226 0 0 0 12 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 0 1-6.477-.427C4.047 21.128 3 19.852 3 18.4Z" />
-                      </svg>
-                    </span>
-
-                    <span className="flex-1 ms-3 whitespace-nowrap">Jobs</span>
-                  </div>
-
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="size-5"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </summary>
-                <ul className="flex flex-col gap-1 pl-9">
-                  <Link to="jobs/list">
-                    <li className="mt-2 p-1 text-gray-200 hover:text-blue-500">
-                      List
-                    </li>
-                  </Link>
-                  <Link to="jobs/new">
-                    <li className="p-1 text-gray-200 hover:text-blue-500">
-                      New
-                    </li>
-                  </Link>
-                </ul>
-              </details>
-            </li> */}
-            {/* <li>
-              <details className="group overflow-hidden cursor-pointer [&_summary::-webkit-details-marker]:hidden">
-                <summary className="w-full flex items-center justify-between p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                  <div className="flex items-center">
-                    <span className="text-gray-400 group-hover:text-white">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M1.5 7.125c0-1.036.84-1.875 1.875-1.875h6c1.036 0 1.875.84 1.875 1.875v3.75c0 1.036-.84 1.875-1.875 1.875h-6A1.875 1.875 0 0 1 1.5 10.875v-3.75Zm12 1.5c0-1.036.84-1.875 1.875-1.875h5.25c1.035 0 1.875.84 1.875 1.875v8.25c0 1.035-.84 1.875-1.875 1.875h-5.25a1.875 1.875 0 0 1-1.875-1.875v-8.25ZM3 16.125c0-1.036.84-1.875 1.875-1.875h5.25c1.036 0 1.875.84 1.875 1.875v2.25c0 1.035-.84 1.875-1.875 1.875h-5.25A1.875 1.875 0 0 1 3 18.375v-2.25Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </span>
-
-                    <span className="flex-1 ms-3 whitespace-nowrap">
-                      Career
-                    </span>
-                  </div>
-
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="size-5"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </summary>
-                <ul className="flex flex-col gap-1 pl-9">
-                  <Link to="jobs/list">
-                    <li className="mt-2 p-1 text-gray-200 hover:text-blue-500">
-                      List
-                    </li>
-                  </Link>
-                  <Link to="jobs/new">
-                    <li className="p-1 text-gray-200 hover:text-blue-500">
-                      New
-                    </li>
-                  </Link>
-                </ul>
-              </details>
-            </li> */}
           </div>
           <div className="">
             <li>
@@ -305,7 +244,7 @@ const Sidebar = () => {
             <li>
               <button
                 onClick={handleClick}
-                className="group w-full flex items-center gap-4 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className="group w-full flex items-center gap-4 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
               >
                 <svg
                   className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -322,7 +261,6 @@ const Sidebar = () => {
                     d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
                   />
                 </svg>
-                <Link to="/login">Login</Link>
                 <span className="">Log out</span>
               </button>
             </li>
